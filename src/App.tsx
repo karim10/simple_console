@@ -1,26 +1,59 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Provider } from 'react-redux';
+
+import { store } from './redux/store';
+
+import { ConnectedConsole } from './components/Console';
+import { ConnectedEditor } from './components/Editor';
+import { ConnectedSidebar } from './components/Sidebar';
+
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    console.log('App State: ', store.getState());
+    return (
+        <Provider store={store}>
+            <div style={containerStyles}>
+                <div style={sideBarWrapperStyles}>
+                    <ConnectedSidebar />
+                </div>
+                <div style={contentWrapperStyles}>
+                    <ConnectedEditor />
+                    <ConnectedConsole />
+                </div>
+            </div>
+        </Provider>
+    );
 }
+
+// Container
+const containerStyles: React.CSSProperties = {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: 'grey',
+    padding: '50px',
+};
+
+// Side bar
+const sideBarWrapperStyles: React.CSSProperties = {
+    background: '#99a8ba',
+    height: '100%',
+    flexBasis: '20%',
+    alignContent: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    border: 'solid',
+};
+
+// Content - right side
+const contentWrapperStyles: React.CSSProperties = {
+    background: 'green',
+    flexGrow: 1,
+    height: '100%',
+    borderStyle: 'solid',
+};
 
 export default App;
