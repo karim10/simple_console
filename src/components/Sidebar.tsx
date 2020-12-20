@@ -5,6 +5,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { connect } from 'react-redux';
 import { addFile, setActiveFile } from '../redux/actions';
 import { AppState } from '../redux/types';
+import { FileCopy } from '@material-ui/icons';
 
 export function Sidebar(props: {
     state: AppState;
@@ -54,12 +55,7 @@ export function Sidebar(props: {
                             style={fileButtonStyles}
                         />
                         <InputGroup.Prepend>
-                            <InputGroup.Text
-                                style={{ cursor: 'pointer' }}
-                                onClick={addFileInSidebar}
-                            >
-                                @
-                            </InputGroup.Text>
+                            <FileCopy />
                         </InputGroup.Prepend>
                     </InputGroup>
                 ) : null}

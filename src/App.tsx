@@ -3,8 +3,8 @@ import { Provider } from 'react-redux';
 
 import { store } from './redux/store';
 
-import { ConnectedConsole } from './components/Console';
-import { ConnectedEditor } from './components/Editor';
+import { Console } from './components/Console';
+import { EditorWrapper } from './components/Editor';
 import { ConnectedSidebar } from './components/Sidebar';
 
 import './App.css';
@@ -18,8 +18,8 @@ function App() {
                     <ConnectedSidebar />
                 </div>
                 <div style={contentWrapperStyles}>
-                    <ConnectedEditor />
-                    <ConnectedConsole />
+                    <EditorWrapper />
+                    <Console />
                 </div>
             </div>
         </Provider>

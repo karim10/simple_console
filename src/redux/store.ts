@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 
 import { AppState, initialState } from './types';
-import { ADD_FILE, RUN_SCRIPT_FOR_ACTIVE_FILE, SET_ACTIVE_FILE, SET_SCRIPT_FOR_ACTIVE_FILE } from './actions';
+import { ADD_FILE, RUN_SCRIPT_FOR_ACTIVE_FILE, SET_ACTIVE_FILE, SET_SCRIPT } from './actions';
 import { evaluate } from '../evaluator';
 
 function reducer(state = initialState, action: any): AppState {
@@ -20,11 +20,11 @@ function reducer(state = initialState, action: any): AppState {
                 ...state,
                 activeFile: action.filename,
             };
-        case SET_SCRIPT_FOR_ACTIVE_FILE: {
+        case SET_SCRIPT: {
             return {
                 ...state,
                 files: state.files.map((file) =>
-                    file.filename === state.activeFile ? { ...file, editorContent: action.script } : file
+                    file.filename === action.filename ? { ...file, editorContent: action.script } : file
                 )
             };
         }

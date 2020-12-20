@@ -1,13 +1,22 @@
 import React from 'react';
 import Quill from 'quill';
 import { AppState } from '../redux/types';
-import { connect } from 'react-redux';
-import { setScriptForActiveFile } from '../redux/actions';
-import { File } from '../redux/types';
+import { useDispatch, useSelector } from 'react-redux';
+import { setScript } from '../redux/actions';
 
-export function Editor(props: { activeFile: string, editorContent: string; setScriptForActiveFile: any }) {
-    const { editorContent, setScriptForActiveFile, activeFile } = props;
+export function EditorWrapper() {
+    const activeFile = useSelector<AppState, string>(state => state.activeFile);
+
+    return (
+        <Editor activeFile={activeFile} />
+    )
+}
+
+
+function Editor(props: { activeFile: string }) {
     const quillRef = React.useRef<Quill>();
+    const dispatch = useDispatch();
+    const fileContent = useSelector<AppState, string>(state => state.files.find(f => f.filename === props.activeFile)?.editorContent ?? '');
 
     React.useEffect(() => {
         quillRef.current = new Quill('#editor', {
@@ -16,15 +25,22 @@ export function Editor(props: { activeFile: string, editorContent: string; setSc
                 toolbar: false,
             },
         });
-        quillRef.current.on('text-change', () => setScriptForActiveFile(quillRef.current?.getText()));
-    }, [setScriptForActiveFile]);
+    }, []);
 
     React.useEffect(() => {
-        if (quillRef.current === undefined) {
-            return;
+        const textChangeHandler = () => dispatch(setScript(props.activeFile, quillRef.current?.getText() ?? ''));
+        quillRef.current?.on('text-change', textChangeHandler);
+        return () => {
+            quillRef.current?.off('text-change', textChangeHandler);
         }
-        quillRef.current.setText(editorContent);
-    }, [activeFile]);
+    }, [dispatch, props.activeFile]);
+
+    React.useEffect(() => {
+        if (quillRef.current && fileContent !== undefined) {
+            quillRef.current.setText(fileContent);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.activeFile]);
 
     return (
         <div style={editorWrapperStyles}>
@@ -32,23 +48,6 @@ export function Editor(props: { activeFile: string, editorContent: string; setSc
         </div>
     );
 }
-
-const mapStateToProps = (state: AppState) => ({
-    activeFile: state.activeFile,
-    editorContent: getScriptByFilename(state.files, state.activeFile),
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-    setScriptForActiveFile: (script: string) =>
-        dispatch(setScriptForActiveFile(script)),
-});
-
-function getScriptByFilename(files: ReadonlyArray<File>, filename: string): string {
-    const file = files.find((f) => f.filename === filename);
-    return file ? file.editorContent : '';
-}
-
-export const ConnectedEditor = connect(mapStateToProps, mapDispatchToProps)(Editor);
 
 const editorWrapperStyles: React.CSSProperties = {
     background: '#bfc4b9',

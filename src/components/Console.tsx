@@ -1,30 +1,21 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { runScriptForActiveFile } from '../redux/actions';
 import { AppState } from '../redux/types';
 
-function Console(props: { consoleOutput: string, runScript: () => void }) {
-
+export function Console() {
+    const consoleOutput = useSelector<AppState, string>(state => state.consoleOutput);
+    const dispatch = useDispatch();
 
     return (
         <div style={consoleOutputWrapperStyles}>
-            <button onClick={() => props.runScript()}>Run</button>
+            <button onClick={() => dispatch(runScriptForActiveFile())}>Run</button>
             <div style={consoleOutputStyles}>
-                {props.consoleOutput}
+                {consoleOutput}
             </div>
         </div>
     );
 }
-
-const mapStateToProps = (state: AppState) => ({
-    consoleOutput: state.consoleOutput
-})
-
-const mapDispatchToProps = (dispatch: any) => ({
-    runScript: () => dispatch(runScriptForActiveFile())
-})
-
-export const ConnectedConsole = connect(mapStateToProps, mapDispatchToProps)(Console);
 
 const consoleOutputWrapperStyles: React.CSSProperties = {
     background: '#b3b2b8',
