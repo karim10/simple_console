@@ -13,7 +13,6 @@ function evaluate(str) {
     }
 }
 
-
 const testScript = `
 function oddishOrEvenish(number) {
     const numberToString = number.toString();
@@ -191,7 +190,6 @@ const testScript2 = `
 
 loadData();
 `;
-
 
 console.log(evaluate(testScript2));
 // function Evaluator(cons) {

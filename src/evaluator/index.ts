@@ -1,5 +1,5 @@
 export function evaluate(script: string): string {
-    console.log("script: ", script);
+    console.log('script: ', script);
     var consoleOutput = '';
     try {
         const console = {

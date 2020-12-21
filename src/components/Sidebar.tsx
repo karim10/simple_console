@@ -1,26 +1,37 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState, File } from '../redux/types';
 import { addFile, setActiveFile } from '../redux/actions';
-import { AppState } from '../redux/types';
+import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
 
-export function Sidebar(props: {
-    state: AppState;
-    addFile: (filename: string) => void;
-    setActiveFile: (filename: string) => void;
-}) {
-    const { state, addFile, setActiveFile } = props;
+export function Sidebar() {
+    const state = useSelector<AppState, AppState>((state) => state);
+    const dispatch = useDispatch();
+    const inputEl = React.useRef<HTMLInputElement>(null);
+
     const [adding, setAdding] = React.useState(false);
     const [inputValue, setInputValue] = React.useState('');
 
-    const addFileInSidebar = () => {
-        addFile(inputValue);
-        setActiveFile(inputValue);
-        setAdding(false);
+    React.useEffect(() => {
+        if (adding && inputEl.current) {
+            inputEl.current.focus();
+        }
+    })
+
+    const addFileHandler = (filename: string) => {
+        dispatch(addFile(filename));
+    };
+    const setActiveFileHandler = (filename: string) => {
+        dispatch(setActiveFile(filename));
     };
 
+    const addFileInSidebar = () => {
+        const filenameToAdd = getNewFilename(state.files, inputValue);
+            
+        addFileHandler(filenameToAdd);
+        setActiveFileHandler(filenameToAdd);
+        setAdding(false);
+    };
     const handleEnterDown = (e: any) => {
         if (e.key === 'Enter') {
             addFileInSidebar();
@@ -31,44 +42,48 @@ export function Sidebar(props: {
         <>
             <div style={filesWrapperStyles}>
                 {state.files.map((file) => {
+                    const isActive = file.filename === state.activeFile;
                     return (
-                        <Button
-                            variant="secondary"
-                            size="lg"
-                            block
-                            style={fileButtonStyles}
+                        <button
+                            style={fileButtonStyles(isActive)}
                             key={file.filename}
-                            onClick={() => setActiveFile(file.filename)}
+                            onClick={() => setActiveFileHandler(file.filename)}
                         >
                             {file.filename}
-                        </Button>
+                        </button>
                     );
                 })}
                 {adding ? (
-                    <InputGroup className="mb-2">
-                        <Form.Control
-                            id="inlineFormInputGroup"
-                            placeholder="Filename"
-                            onChange={(e: any) => setInputValue(e.target.value)}
+                    <div style={{ display: 'flex', backgroundColor: 'white' }}>
+                        <input
+                            style={addInputStyles}
+                            onChange={(e) => setInputValue(e.target.value)}
                             onKeyDown={handleEnterDown}
-                            style={fileButtonStyles}
+                            ref={inputEl}
                         />
-                        <InputGroup.Prepend>
-                        </InputGroup.Prepend>
-                    </InputGroup>
+                        <AddCircleOutlineRoundedIcon
+                            onClick={addFileInSidebar}
+                            style={{ paddingTop: '10px', cursor: 'pointer' }}
+                        />
+                    </div>
                 ) : null}
             </div>
-            <Button
-                variant="secondary"
-                size="lg"
-                block
+            <button
                 style={addButtonStyle}
                 onClick={() => setAdding(true)}
             >
                 Add
-            </Button>
+            </button>
         </>
     );
+}
+
+function getNewFilename(files: ReadonlyArray<File>, filename: string): string {
+    if (files.find(f => f.filename === filename)) {
+        return getNewFilename(files, filename.concat('_'));
+    }
+
+    return filename;
 }
 
 const filesWrapperStyles: React.CSSProperties = {
@@ -76,27 +91,28 @@ const filesWrapperStyles: React.CSSProperties = {
     overflowY: 'auto',
 };
 
-const fileButtonStyles: React.CSSProperties = {
+const fileButtonStyles: (isActive: boolean) => React.CSSProperties = (isActive: boolean) => ({
     height: '50px',
-    borderRadius: 0,
-    margin: 0,
-    borderBottom: 'solid 1px black',
+    width: '100%',
+    border: 0,
+    boxShadow: 'none',
+    borderBottom: 'solid 2px black',
+    backgroundColor: isActive ? '#cbced4' : '#6c757d',
+    color: 'white'
+});
+
+const addInputStyles: React.CSSProperties = {
+    height: '50px',
+    width: '100%',
+    border: 0,
+    boxShadow: 'none',
 };
 
 const addButtonStyle: React.CSSProperties = {
     bottom: '0px',
     height: '50px',
     borderRadius: 0,
-    borderTop: 'solid 1px black',
+    borderTop: 'solid 2px black',
+    backgroundColor: '#6c757d',
+    color: 'white'
 };
-
-const mapStateToState = (state: AppState) => ({
-    state: state,
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-    addFile: (filename: string) => dispatch(addFile(filename)),
-    setActiveFile: (filename: string) => dispatch(setActiveFile(filename)),
-});
-
-export const ConnectedSidebar = connect(mapStateToState, mapDispatchToProps)(Sidebar);

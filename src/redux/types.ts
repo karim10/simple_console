@@ -10,10 +10,12 @@ export interface AppState {
 }
 
 export const initialState: AppState = {
-    files: [{
-        filename: 'index.js',
-        editorContent: '',
-    }],
+    files: [
+        {
+            filename: 'index.js',
+            editorContent: '',
+        },
+    ],
     activeFile: 'index.js',
-    consoleOutput: ''
+    consoleOutput: '',
 };

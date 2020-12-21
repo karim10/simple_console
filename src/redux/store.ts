@@ -24,15 +24,19 @@ function reducer(state = initialState, action: any): AppState {
             return {
                 ...state,
                 files: state.files.map((file) =>
-                    file.filename === action.filename ? { ...file, editorContent: action.script } : file
-                )
+                    file.filename === action.filename
+                        ? { ...file, editorContent: action.script }
+                        : file
+                ),
             };
         }
         case RUN_SCRIPT_FOR_ACTIVE_FILE:
             return {
                 ...state,
-                consoleOutput: evaluate(state.files.find(file => file.filename === state.activeFile)?.editorContent!)
-            }
+                consoleOutput: evaluate(
+                    state.files.find((file) => file.filename === state.activeFile)?.editorContent!
+                ),
+            };
         default:
             return state;
     }

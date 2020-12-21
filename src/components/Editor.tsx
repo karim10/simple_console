@@ -5,18 +5,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setScript } from '../redux/actions';
 
 export function EditorWrapper() {
-    const activeFile = useSelector<AppState, string>(state => state.activeFile);
+    const activeFile = useSelector<AppState, string>((state) => state.activeFile);
 
-    return (
-        <Editor activeFile={activeFile} />
-    )
+    return <Editor activeFile={activeFile} />;
 }
-
 
 function Editor(props: { activeFile: string }) {
     const quillRef = React.useRef<Quill>();
     const dispatch = useDispatch();
-    const fileContent = useSelector<AppState, string>(state => state.files.find(f => f.filename === props.activeFile)?.editorContent ?? '');
+    const fileContent = useSelector<AppState, string>(
+        (state) => state.files.find((f) => f.filename === props.activeFile)?.editorContent ?? ''
+    );
 
     React.useEffect(() => {
         quillRef.current = new Quill('#editor', {
@@ -28,11 +27,12 @@ function Editor(props: { activeFile: string }) {
     }, []);
 
     React.useEffect(() => {
-        const textChangeHandler = () => dispatch(setScript(props.activeFile, quillRef.current?.getText() ?? ''));
+        const textChangeHandler = () =>
+            dispatch(setScript(props.activeFile, quillRef.current?.getText() ?? ''));
         quillRef.current?.on('text-change', textChangeHandler);
         return () => {
             quillRef.current?.off('text-change', textChangeHandler);
-        }
+        };
     }, [dispatch, props.activeFile]);
 
     React.useEffect(() => {
@@ -50,9 +50,8 @@ function Editor(props: { activeFile: string }) {
 }
 
 const editorWrapperStyles: React.CSSProperties = {
-    background: '#bfc4b9',
+    background: '#b3d5fc',
     height: '60%',
-    borderStyle: 'solid',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -62,5 +61,7 @@ const editorWrapperStyles: React.CSSProperties = {
 const editorStyles: React.CSSProperties = {
     height: '90%',
     width: '90%',
-    background: '#42ad6d',
+    background: 'white',
+    border: 'solid 2px',
+    borderRadius: '10px'
 };

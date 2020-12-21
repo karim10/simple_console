@@ -5,17 +5,14 @@ import { store } from './redux/store';
 
 import { Console } from './components/Console';
 import { EditorWrapper } from './components/Editor';
-import { ConnectedSidebar } from './components/Sidebar';
-
-import './App.css';
+import { Sidebar } from './components/Sidebar';
 
 function App() {
-    console.log('App State: ', store.getState());
     return (
         <Provider store={store}>
             <div style={containerStyles}>
                 <div style={sideBarWrapperStyles}>
-                    <ConnectedSidebar />
+                    <Sidebar />
                 </div>
                 <div style={contentWrapperStyles}>
                     <EditorWrapper />
@@ -33,27 +30,35 @@ const containerStyles: React.CSSProperties = {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    background: 'grey',
+    background: 'white',
     padding: '50px',
 };
 
 // Side bar
 const sideBarWrapperStyles: React.CSSProperties = {
-    background: '#99a8ba',
+    background: '#b3d5fc',
     height: '100%',
     flexBasis: '20%',
     alignContent: 'center',
     display: 'flex',
     flexDirection: 'column',
-    border: 'solid',
+    borderLeft: 'solid',
+    borderTop: 'solid',
+    borderBottom: 'solid',
+    borderRadius: '20px 0 0 20px',
+    overflow: 'hidden',
 };
 
 // Content - right side
 const contentWrapperStyles: React.CSSProperties = {
-    background: 'green',
     flexGrow: 1,
     height: '100%',
-    borderStyle: 'solid',
+    borderTop: 'solid',
+    borderRight: 'solid',
+    borderLeft: 'solid 2px',
+    borderBottom: 'solid',
+    borderRadius: '0 20px 20px 0',
+    overflow: 'hidden',
 };
 
 export default App;
