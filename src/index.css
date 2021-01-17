@@ -1,5 +1,21 @@
-html,
-body,
+/* html * {
+    font-family: "Comic Sans MS", "Comic Sans", cursive !important;
+    font-size: large;
+    font-weight: 600;
+} */
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+}
+
 #root {
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

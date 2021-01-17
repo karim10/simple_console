@@ -25,13 +25,13 @@ function App() {
 
 // Container
 const containerStyles: React.CSSProperties = {
-    height: '100%',
+    height: '90%',
+    width: '90%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     background: 'white',
-    padding: '50px',
 };
 
 // Side bar
