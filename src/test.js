@@ -1,15 +1,15 @@
 function evaluate(str) {
-    var consoleOutput = '';
+    var consoleOutput = ''
     try {
         const console = {
             log: function (m) {
-                consoleOutput = consoleOutput + '\n' + JSON.stringify(m);
-                return consoleOutput;
+                consoleOutput = consoleOutput + '\n' + JSON.stringify(m)
+                return consoleOutput
             },
-        };
-        return eval(str);
+        }
+        return eval(str)
     } catch (e) {
-        return e.toString();
+        return e.toString()
     }
 }
 
@@ -176,7 +176,7 @@ function loadData() {
 }
 
 testAsync();
-`;
+`
 
 const testScript2 = `
     function loadData() {
@@ -189,9 +189,9 @@ const testScript2 = `
 }
 
 loadData();
-`;
+`
 
-console.log(evaluate(testScript2));
+// console.log(evaluate(testScript2));
 // function Evaluator(cons) {
 //     this.cons = cons;
 // }
@@ -212,3 +212,45 @@ console.log(evaluate(testScript2));
 
 // var e = new Evaluator(cons);
 // console.log(e.evaluate("console.log('hello'); console.log('test')"));
+
+function oddishOrEvenish(number) {
+    const numberToString = number.toString()
+    return [...numberToString].reduce((acc, value) => parseInt(acc) + parseInt(value), 0) % 2
+        ? 'Oddish'
+        : 'Evenish'
+}
+
+console.log(oddishOrEvenish(41))
+
+function leader(arr) {
+    return arr.filter((e, index) => isLeader(e, arr.slice(index + 1, arr.length)))
+}
+
+function isLeader(el, arr) {
+    return arr.every((e) => e < el)
+}
+
+console.log(leader([2, 3, 20, 15, 8, 25, 3]))
+
+function isPrime(n) {
+    for (let i = 2; i < n; i++) {
+        if (n % i === 0) {
+            return false
+        }
+    }
+
+    return n > 1
+}
+
+console.log(isPrime(5))
+
+function primeFactorize(num) {
+    let arr = []
+    for (let i = 2; i < num + 1; i++) {
+        if (num % i === 0 && isPrime(i)) {
+            return arr.concat(i, primeFactorize(num / i))
+        }
+    }
+
+    return arr
+}

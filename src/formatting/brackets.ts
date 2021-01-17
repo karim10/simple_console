@@ -17,8 +17,6 @@ export function getBracketsToFormatIndices(str: string, selectionIndex: number) 
     let bracketType: Bracket | undefined
     const char = str[selectionIndex]
     const adjacentChar = str[selectionIndex - 1]
-    console.log(char)
-    console.log(adjacentChar)
 
     brackets.forEach((b) => {
         if (b.start === char) {

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { theme } from '../formatting'
 import { runScriptForActiveFile } from '../redux/actions'
 import { AppState } from '../redux/types'
 
@@ -35,7 +36,7 @@ const consoleOutputWrapperStyles: React.CSSProperties = {
     borderTop: 'solid 2px',
     position: 'relative',
     fontSize: 'large',
-    fontFamily: '',
+    fontFamily: 'Comic Sans MS',
 }
 
 const runButtonStyles: React.CSSProperties = {
@@ -45,7 +46,7 @@ const runButtonStyles: React.CSSProperties = {
 }
 
 const consoleOutputStyles: React.CSSProperties = {
-    background: 'white',
+    background: theme.background,
     height: '90%',
     width: '90%',
     border: 'solid 2px',
