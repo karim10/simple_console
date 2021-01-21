@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setScript } from '../redux/actions'
 import './custom-quill.css'
 import { handleFormating, theme } from '../formatting'
+import Delta from 'quill-delta'
 
 export function EditorWrapper() {
     const activeFile = useSelector<AppState, string>((state) => state.activeFile)
@@ -42,18 +43,77 @@ function Editor(props: { activeFile: string }) {
 
     React.useEffect(() => {
         quillRef.current?.on('text-change', (delta, oldDelta, source) => {
-            console.log('delta: ', delta)
-            console.log('oldDelta: ', oldDelta)
-            console.log('diff: ', oldDelta.diff(oldDelta.compose(delta)))
+            console.log('Delta: ', delta)
+
+            const changeOps = []
+            let changeIndex = 0
+            for (let i = 0; i < delta.ops.length; i++) {
+                if (delta.ops[i].retain) {
+                    changeIndex = changeIndex + delta.ops[i].retain!
+                }
+
+                if (delta.ops[i].insert) {
+                    if (i > 0) {
+                        changeOps.push(delta.ops[i - 1])
+                    } else {
+                        changeOps.push(null)
+                    }
+                    changeOps.push(delta.ops[i])
+                    if (i < delta.ops.length - 1) {
+                        changeOps.push(delta.ops[i + 1])
+                    } else {
+                        changeOps.push(null)
+                    }
+
+                    break
+                }
+            }
+
+            let changeText = ''
+
+            if (!changeOps[1] || changeOps[1].insert === undefined) {
+                return
+            }
+
+            if (changeOps[0]) {
+                if (changeOps[0].retain) {
+                    changeText =
+                        changeText +
+                        quillRef.current?.getText(
+                            changeIndex - changeOps[0].retain,
+                            changeOps[0].retain
+                        )
+                }
+            }
+
+            if (changeOps[1]?.insert) {
+                changeText = changeText + changeOps[1].insert
+            }
+
+            if (changeOps[2]?.retain) {
+                changeText =
+                    changeText +
+                    quillRef.current?.getText(
+                        changeIndex - changeOps[1].insert?.toString().length,
+                        changeOps[2].retain
+                    )
+            }
+
+            if (changeOps[0] && changeOps[0].retain) {
+                changeIndex = changeIndex - changeOps[0].retain
+            }
+
+            console.log('changeText', changeText)
+
             // console.log('delta: ', delta ? oldDelta.diff(delta) : 'delta not defined')
-            // handleFormating(source, quillRef)
+            handleFormating(source, quillRef, changeText, changeIndex)
         })
     }, [])
 
     React.useEffect(() => {
         if (quillRef.current && fileContent !== undefined) {
             quillRef.current.setText(fileContent, 'user')
-            handleFormating('user', quillRef)
+            // handleFormating('user', quillRef)
         }
         // needed to avoid extra rendering
         // eslint-disable-next-line react-hooks/exhaustive-deps
