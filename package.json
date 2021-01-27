@@ -17,6 +17,7 @@
         "@types/react-dom": "^16.9.0",
         "@types/react-redux": "^7.1.9",
         "@types/redux-logger": "^3.0.8",
+        "@types/styled-components": "^5.1.7",
         "bootstrap": "^4.5.2",
         "lodash": "^4.17.20",
         "parchment": "^2.0.0-dev.2",
@@ -28,6 +29,7 @@
         "react-scripts": "3.4.3",
         "redux": "^4.0.5",
         "redux-logger": "^3.0.6",
+        "styled-components": "^5.2.1",
         "typescript": "~3.7.2"
     },
     "scripts": {

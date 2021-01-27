@@ -1,6 +1,7 @@
+import { Button } from '@material-ui/core'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { theme } from '../formatting'
+import styled from 'styled-components'
 import { runScriptForActiveFile } from '../redux/actions'
 import { AppState } from '../redux/types'
 
@@ -17,38 +18,47 @@ export function Console() {
     }, [dispatch])
 
     return (
-        <div style={consoleOutputWrapperStyles}>
-            <button style={runButtonStyles} onClick={() => dispatch(runScriptForActiveFile())}>
+        <ConsoleOutputWrapper>
+            <Button
+                variant="contained"
+                onClick={() => dispatch(runScriptForActiveFile())}
+                style={runButtonStyles}
+                title={'Ctrl+S'}
+            >
                 Run
-            </button>
-            <div style={consoleOutputStyles}>{consoleOutput}</div>
-        </div>
+            </Button>
+            <ConsoleOutput>{consoleOutput}</ConsoleOutput>
+        </ConsoleOutputWrapper>
     )
 }
 
-const consoleOutputWrapperStyles: React.CSSProperties = {
-    background: theme.background,
-    height: '40%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderTop: 'solid 2px',
-    position: 'relative',
-    fontSize: 'large',
-    fontFamily: 'Comic Sans MS',
-}
+const ConsoleOutputWrapper = styled.div`
+    background: ${(props) => props.theme.primary};
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-top: solid 2px ${(props) => props.theme.seconday};
+    position: relative;
+    font-size: large;
+    font-family: Comic Sans MS;
+`
 
 const runButtonStyles: React.CSSProperties = {
     position: 'absolute',
-    right: '70px',
+    right: '80px',
     top: '25px',
 }
 
-const consoleOutputStyles: React.CSSProperties = {
-    background: theme.background,
-    height: '90%',
-    width: '90%',
-    border: `solid 2px ${theme.border}`,
-    borderRadius: '10px',
-}
+const ConsoleOutput = styled.div`
+    background: ${(props) => props.theme.primary};
+    height: 90%;
+    width: 90%;
+    border: solid 2px ${(props) => props.theme.secondary};
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 20px;
+    color: ${(props) => props.theme.text};
+    white-space: pre-line;
+`

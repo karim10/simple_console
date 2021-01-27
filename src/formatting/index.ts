@@ -7,21 +7,10 @@ import {
 } from './rangeHelpers'
 import { blueWords, greenWords, purpleWords, redChars } from './specialWords'
 
-export const theme = {
-    blue: '#569CD6', //const var let,
-    yellow: '#D5DCAA', //function
-    lightBlue: '#4FC1FF',
-    purple: '#C586C0',
-    orange: '#E19577',
-    grey: '#D4D4D4',
-    background: '#1E1E1E',
-    green: '#629155',
-    border: '#A89492',
-}
-
 export const handleFormating = (
     source: string,
-    quillRef: React.MutableRefObject<Quill | undefined>
+    quillRef: React.MutableRefObject<Quill | undefined>,
+    theme: any
 ) => {
     if (source !== 'user') {
         return
@@ -51,7 +40,7 @@ export const handleFormating = (
 
     // reserved words
     purpleWords.forEach((pw) => {
-        getDelimitedRangesOf(pw, text, quill, theme.green)
+        getDelimitedRangesOf(pw, text, quill, theme.purple)
     })
 
     blueWords.forEach((bw) => {

@@ -4,15 +4,18 @@ import { AppState } from '../redux/types'
 import { useDispatch, useSelector } from 'react-redux'
 import { setScript } from '../redux/actions'
 import './custom-quill.css'
-import { handleFormating, theme } from '../formatting'
+import { handleFormating } from '../formatting'
+import styled, { withTheme } from 'styled-components'
 
-export function EditorWrapper() {
+export function ActiveEditor() {
     const activeFile = useSelector<AppState, string>((state) => state.activeFile)
 
-    return <Editor activeFile={activeFile} />
+    return <WithThemeEditor activeFile={activeFile} />
 }
 
-function Editor(props: { activeFile: string }) {
+const WithThemeEditor = withTheme(Editor)
+
+function Editor(props: { activeFile: string; theme: any }) {
     const quillRef = React.useRef<Quill>()
     const dispatch = useDispatch()
     const fileContent = useSelector<AppState, string>(
@@ -41,42 +44,42 @@ function Editor(props: { activeFile: string }) {
     }, [dispatch, props.activeFile])
 
     React.useEffect(() => {
-        quillRef.current?.on('text-change', (oldDelta, delta, source) =>
-            handleFormating(source, quillRef)
-        )
-    }, [])
+        quillRef.current?.on('text-change', (oldDelta, delta, source) => {
+            handleFormating(source, quillRef, props.theme)
+        })
+    }, [props.theme])
 
     React.useEffect(() => {
         if (quillRef.current && fileContent !== undefined) {
             quillRef.current.setText(fileContent, 'user')
-            handleFormating('user', quillRef)
+            handleFormating('user', quillRef, props.theme)
         }
         // needed to avoid extra rendering
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.activeFile])
 
     return (
-        <div style={editorWrapperStyles}>
-            <div style={editorStyles} id={'editor'}></div>
-        </div>
+        <EditorWrapper>
+            <EditorContainer id={'editor'} />
+        </EditorWrapper>
     )
 }
 
-const editorWrapperStyles: React.CSSProperties = {
-    background: theme.background,
-    height: '60%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-}
+const EditorWrapper = styled.div`
+    background: ${(props) => props.theme.primary};
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`
 
-const editorStyles: React.CSSProperties = {
-    height: '90%',
-    width: '90%',
-    background: theme.background,
-    border: 'solid 2px',
-    borderRadius: '10px',
-    caretColor: 'white',
-    color: 'white',
-}
+const EditorContainer = styled.div`
+    height: 90%;
+    width: 90%;
+    background: ${(props) => props.theme.primary};
+    border: solid 2px ${(props) => props.theme.secondary};
+    border-radius: 10px;
+    caret-color: ${(props) => props.theme.text};
+    color: ${(props) => props.theme.text};
+`

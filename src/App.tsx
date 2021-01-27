@@ -4,67 +4,74 @@ import { Provider } from 'react-redux'
 import { store } from './redux/store'
 
 import { Console } from './components/Console'
-import { EditorWrapper } from './components/Editor'
+import { ActiveEditor } from './components/Editor'
 import { Sidebar } from './components/Sidebar'
-import { theme } from './formatting'
+import { theme } from './theme'
+import styled, { ThemeProvider } from 'styled-components'
 
 function App() {
     return (
         <Provider store={store}>
-            {/* <div style={{ background: theme.background, width: '100%', height: '100%' }}> */}
-            <div style={containerStyles}>
-                <div style={sideBarWrapperStyles}>
-                    <Sidebar />
-                </div>
-                <div style={contentWrapperStyles}>
-                    <EditorWrapper />
-                    <Console />
-                </div>
-            </div>
-            {/* </div> */}
+            <ThemeProvider theme={theme}>
+                <AppWrapper>
+                    <IDEContainer>
+                        <SidebarWrapper>
+                            <Sidebar />
+                        </SidebarWrapper>
+                        <ContentWrapper>
+                            <ActiveEditor />
+                            <Console />
+                        </ContentWrapper>
+                    </IDEContainer>
+                </AppWrapper>
+            </ThemeProvider>
         </Provider>
     )
 }
 
-// Container
-const containerStyles: React.CSSProperties = {
-    height: '100%',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    background: theme.background,
-    padding: '100px',
-}
+const AppWrapper = styled.div`
+    height: 100vh;
+    width: 100vw;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: ${(props) => props.theme.primary};
+`
 
-// Side bar
-const sideBarWrapperStyles: React.CSSProperties = {
-    background: theme.background,
-    height: '100%',
-    flexBasis: '20%',
-    alignContent: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    borderLeft: 'solid',
-    borderTop: 'solid',
-    borderBottom: 'solid',
-    borderColor: theme.border,
-    borderRadius: '20px 0 0 20px',
-    overflow: 'hidden',
-}
+const IDEContainer = styled.div`
+    height: 90%;
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+`
 
-// Content - right side
-const contentWrapperStyles: React.CSSProperties = {
-    flexGrow: 1,
-    height: '100%',
-    borderTop: 'solid',
-    borderRight: 'solid',
-    borderLeft: 'solid 2px',
-    borderBottom: 'solid',
-    borderRadius: '0 20px 20px 0',
-    borderColor: theme.border,
-    overflow: 'hidden',
-}
-
+const SidebarWrapper = styled.div`
+    background: ${(props) => props.theme.primary};
+    height: 100%;
+    flex-basis: 20%;
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    border-left: solid;
+    border-top: solid;
+    border-bottom: solid;
+    border-color: ${(props) => props.theme.secondary};
+    border-radius: 20px 0 0 20px;
+    overflow: hidden;
+`
+const ContentWrapper = styled.div`
+    flex-grow: 1;
+    height: 100%;
+    border-top: solid;
+    border-right: solid;
+    border-left: solid 2px;
+    border-bottom: solid;
+    border-radius: 0 20px 20px 0;
+    border-color: ${(props) => props.theme.secondary};
+    overflow: hidden;
+`
 export default App
