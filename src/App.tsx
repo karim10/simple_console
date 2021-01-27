@@ -1,15 +1,17 @@
-import React from 'react';
-import { Provider } from 'react-redux';
+import React from 'react'
+import { Provider } from 'react-redux'
 
-import { store } from './redux/store';
+import { store } from './redux/store'
 
-import { Console } from './components/Console';
-import { EditorWrapper } from './components/Editor';
-import { Sidebar } from './components/Sidebar';
+import { Console } from './components/Console'
+import { EditorWrapper } from './components/Editor'
+import { Sidebar } from './components/Sidebar'
+import { theme } from './formatting'
 
 function App() {
     return (
         <Provider store={store}>
+            {/* <div style={{ background: theme.background, width: '100%', height: '100%' }}> */}
             <div style={containerStyles}>
                 <div style={sideBarWrapperStyles}>
                     <Sidebar />
@@ -19,24 +21,26 @@ function App() {
                     <Console />
                 </div>
             </div>
+            {/* </div> */}
         </Provider>
-    );
+    )
 }
 
 // Container
 const containerStyles: React.CSSProperties = {
-    height: '90%',
-    width: '90%',
+    height: '100%',
+    width: '100%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    background: 'white',
-};
+    background: theme.background,
+    padding: '100px',
+}
 
 // Side bar
 const sideBarWrapperStyles: React.CSSProperties = {
-    background: '#b3d5fc',
+    background: theme.background,
     height: '100%',
     flexBasis: '20%',
     alignContent: 'center',
@@ -45,9 +49,10 @@ const sideBarWrapperStyles: React.CSSProperties = {
     borderLeft: 'solid',
     borderTop: 'solid',
     borderBottom: 'solid',
+    borderColor: theme.border,
     borderRadius: '20px 0 0 20px',
     overflow: 'hidden',
-};
+}
 
 // Content - right side
 const contentWrapperStyles: React.CSSProperties = {
@@ -58,7 +63,8 @@ const contentWrapperStyles: React.CSSProperties = {
     borderLeft: 'solid 2px',
     borderBottom: 'solid',
     borderRadius: '0 20px 20px 0',
+    borderColor: theme.border,
     overflow: 'hidden',
-};
+}
 
-export default App;
+export default App

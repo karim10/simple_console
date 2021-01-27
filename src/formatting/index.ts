@@ -1,6 +1,5 @@
 import Quill from 'quill'
 import {
-    formatOnRanges,
     getDelimitedRangesOf,
     getIndicesByTypeInGlobal,
     getIndicesOf,
@@ -17,6 +16,7 @@ export const theme = {
     grey: '#D4D4D4',
     background: '#1E1E1E',
     green: '#629155',
+    border: '#A89492',
 }
 
 export const handleFormating = (
@@ -27,7 +27,12 @@ export const handleFormating = (
         return
     }
 
-    const text = quillRef.current?.getText()
+    const quill = quillRef.current
+    if (!quill) {
+        return
+    }
+
+    const text = quill.getText()
     if (!text) {
         return
     }
@@ -35,31 +40,29 @@ export const handleFormating = (
     quillRef.current?.removeFormat(0, quillRef.current?.getLength() - 1)
 
     // globals
-    formatOnRanges(getIndicesByTypeInGlobal('object', text), theme.lightBlue, quillRef)
-    formatOnRanges(getIndicesByTypeInGlobal('function', text), theme.yellow, quillRef)
-
-    console.log(getIndicesOfAfterKeyword('const', text))
+    getIndicesByTypeInGlobal('object', text, quill, theme.blue)
+    getIndicesByTypeInGlobal('function', text, quill, theme.blue)
 
     // declarations
-    formatOnRanges(getIndicesOfAfterKeyword('function', text), theme.yellow, quillRef)
-    formatOnRanges(getIndicesOfAfterKeyword('const', text), theme.lightBlue, quillRef)
-    formatOnRanges(getIndicesOfAfterKeyword('var', text), theme.lightBlue, quillRef)
-    formatOnRanges(getIndicesOfAfterKeyword('let', text), theme.lightBlue, quillRef)
+    getIndicesOfAfterKeyword('function', text, quill, theme.yellow)
+    getIndicesOfAfterKeyword('const', text, quill, theme.lightBlue)
+    getIndicesOfAfterKeyword('var', text, quill, theme.lightBlue)
+    getIndicesOfAfterKeyword('let', text, quill, theme.lightBlue)
 
     // reserved words
     purpleWords.forEach((pw) => {
-        formatOnRanges(getDelimitedRangesOf(pw, text), theme.purple, quillRef)
+        getDelimitedRangesOf(pw, text, quill, theme.green)
     })
 
     blueWords.forEach((bw) => {
-        formatOnRanges(getDelimitedRangesOf(bw, text), theme.blue, quillRef)
+        getDelimitedRangesOf(bw, text, quill, theme.blue)
     })
 
     greenWords.forEach((gw) => {
-        formatOnRanges(getDelimitedRangesOf(gw, text), theme.green, quillRef)
+        getDelimitedRangesOf(gw, text, quill, theme.green)
     })
 
     redChars.forEach((rc) => {
-        formatOnRanges(getIndicesOf(rc, text), theme.orange, quillRef)
+        getIndicesOf(rc, text, quill, theme.orange)
     })
 }

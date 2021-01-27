@@ -27,7 +27,7 @@ export function Console() {
 }
 
 const consoleOutputWrapperStyles: React.CSSProperties = {
-    background: '#b3d5fc',
+    background: theme.background,
     height: '40%',
     display: 'flex',
     flexDirection: 'column',
@@ -49,6 +49,6 @@ const consoleOutputStyles: React.CSSProperties = {
     background: theme.background,
     height: '90%',
     width: '90%',
-    border: 'solid 2px',
+    border: `solid 2px ${theme.border}`,
     borderRadius: '10px',
 }

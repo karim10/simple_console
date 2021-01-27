@@ -1,7 +1,13 @@
 import Quill from 'quill'
 import { WordRange } from './types'
 
-export function getDelimitedRangesOf(searchStr: string, str: string): WordRange[] {
+export function getDelimitedRangesOf(
+    searchStr: string,
+    str: string,
+    quill: Quill,
+    color: string,
+    withFormat: boolean = true
+): WordRange[] {
     const indices = []
     let index,
         startIndex = 0
@@ -11,6 +17,9 @@ export function getDelimitedRangesOf(searchStr: string, str: string): WordRange[
             (index === 0 || !/[a-zA-Z0-9_]/.test(str[index - 1])) &&
             !/[a-zA-Z0-9_]/.test(str[index + searchStr.length])
         ) {
+            if (withFormat) {
+                quill.formatText(index, searchStr.length, { color })
+            }
             indices.push({
                 start: index,
                 length: searchStr.length,
@@ -23,11 +32,17 @@ export function getDelimitedRangesOf(searchStr: string, str: string): WordRange[
     return indices
 }
 
-export function getIndicesOf(searchStr: string, str: string): WordRange[] {
+export function getIndicesOf(
+    searchStr: string,
+    str: string,
+    quill: Quill,
+    color: string
+): WordRange[] {
     const indices = []
     let index,
         startIndex = 0
     while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+        quill.formatText(index, searchStr.length, { color })
         indices.push({
             start: index,
             length: searchStr.length,
@@ -38,8 +53,13 @@ export function getIndicesOf(searchStr: string, str: string): WordRange[] {
     return indices
 }
 
-export function getIndicesOfAfterKeyword(keyword: string, str: string): WordRange[] {
-    const keywordRanges = getDelimitedRangesOf(keyword, str)
+export function getIndicesOfAfterKeyword(
+    keyword: string,
+    str: string,
+    quill: Quill,
+    color: string
+): WordRange[] {
+    const keywordRanges = getDelimitedRangesOf(keyword, str, quill, color, false)
     const afterKeywordIndices: WordRange[] = []
     keywordRanges.forEach((kw) => {
         const start = kw.start + keyword.length + 1
@@ -49,6 +69,7 @@ export function getIndicesOfAfterKeyword(keyword: string, str: string): WordRang
         }
 
         if (end !== start) {
+            quill.formatText(start, end - start, { color })
             afterKeywordIndices.push({
                 start,
                 length: end - start,
@@ -60,13 +81,19 @@ export function getIndicesOfAfterKeyword(keyword: string, str: string): WordRang
 }
 
 // returns the indices of the given type in global scope e.g. console
-export function getIndicesByTypeInGlobal(type: string, str: string): WordRange[] {
+export function getIndicesByTypeInGlobal(
+    type: string,
+    str: string,
+    quill: Quill,
+    color: string
+): WordRange[] {
     const re = /\w+/g
     const byTypeRanges: WordRange[] = []
     let match
     while ((match = re.exec(str)) != null) {
         try {
             if (typeof eval(match.toString()) === type) {
+                quill.formatText(match.index, match.toString().length, { color })
                 byTypeRanges.push({
                     start: match.index,
                     length: match.toString().length,
@@ -76,14 +103,4 @@ export function getIndicesByTypeInGlobal(type: string, str: string): WordRange[]
     }
 
     return byTypeRanges
-}
-
-export function formatOnRanges(
-    wordRanges: WordRange[],
-    color: string,
-    quillRef: React.MutableRefObject<Quill | undefined>
-) {
-    wordRanges.forEach((i) => {
-        quillRef.current?.formatText(i.start, i.length, { color })
-    })
 }
