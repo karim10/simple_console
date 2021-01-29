@@ -77,9 +77,9 @@ const SidebarWrapper = styled.div`
     align-content: center;
     display: flex;
     flex-direction: column;
-    border-left: solid;
-    border-top: solid;
-    border-bottom: solid;
+    border-left: solid 2px;
+    border-top: solid 2px;
+    border-bottom: solid 2px;
     border-color: ${(props) => props.theme.secondary};
     border-radius: 20px 0 0 20px;
     overflow: hidden;
@@ -87,10 +87,10 @@ const SidebarWrapper = styled.div`
 const ContentWrapper = styled.div`
     flex-grow: 1;
     height: 100%;
-    border-top: solid;
-    border-right: solid;
+    border-top: solid 2px;
+    border-right: solid 2px;
     border-left: solid 2px;
-    border-bottom: solid;
+    border-bottom: solid 2px;
     border-radius: 0 20px 20px 0;
     border-color: ${(props) => props.theme.secondary};
     overflow: hidden;

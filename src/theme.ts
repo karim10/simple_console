@@ -1,6 +1,6 @@
 export const darkTheme = {
-    blue: '#569CD6', //const var let,
-    yellow: '#D5DCAA', //function
+    blue: '#569CD6',
+    yellow: '#D5DCAA',
     lightBlue: '#4FC1FF',
     purple: '#C586C0',
     orange: '#E19577',
@@ -11,19 +11,23 @@ export const darkTheme = {
     tertiary: '#BD7B7B',
     text: 'white',
     fontMono: 'monospace',
+    otherPrimary: '#FDF6E3',
+    otherText: 'black',
 }
 
 export const lightTheme = {
-    blue: '#569CD6', //const var let,
-    yellow: '#D5DCAA', //function
+    blue: '#569CD6',
+    yellow: '#D5DCAA',
     lightBlue: '#4FC1FF',
     purple: '#C586C0',
     orange: '#E19577',
     grey: '#D4D4D4',
     primary: '#FDF6E3',
     green: '#629155',
-    secondary: '#376a94',
-    tertiary: '#376a94',
+    secondary: '#8CB3C8',
+    tertiary: '#AAC2CF',
     text: 'black',
     fontMono: 'monospace',
+    otherPrimary: '#1E1E1E',
+    otherText: 'white',
 }

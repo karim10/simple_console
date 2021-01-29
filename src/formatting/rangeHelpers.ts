@@ -58,9 +58,9 @@ export function getIndicesOfAfterKeyword(
     str: string,
     quill: Quill,
     color: string
-): WordRange[] {
+): string[] {
     const keywordRanges = getDelimitedRangesOf(keyword, str, quill, color, false)
-    const afterKeywordIndices: WordRange[] = []
+    const afterKeyword: string[] = []
     keywordRanges.forEach((kw) => {
         const start = kw.start + keyword.length + 1
         let end = start
@@ -70,14 +70,11 @@ export function getIndicesOfAfterKeyword(
 
         if (end !== start) {
             quill.formatText(start, end - start, { color })
-            afterKeywordIndices.push({
-                start,
-                length: end - start,
-            })
+            afterKeyword.push(quill.getText(start, end - start))
         }
     })
 
-    return afterKeywordIndices
+    return afterKeyword
 }
 
 // returns the indices of the given type in global scope e.g. console

@@ -15,10 +15,14 @@ export function ThemeSelector() {
                 onChange={(e) => setTheme(e.target.value as Theme)}
             >
                 <option value={Theme.light} onSelect={() => setTheme(Theme.light)}>
-                    &#xf186; dark theme
-                </option>
-                <option value={Theme.dark} onSelect={() => setTheme(Theme.dark)}>
                     &#xf185; light theme
+                </option>
+                <option
+                    style={{ borderRadius: 10 }}
+                    value={Theme.dark}
+                    onSelect={() => setTheme(Theme.dark)}
+                >
+                    &#xf186; dark theme
                 </option>
             </ThemeSelect>
         </ThemeSelectorWrapper>
@@ -27,9 +31,15 @@ export function ThemeSelector() {
 
 const ThemeSelect = styled.select`
     border: none;
-    width: 100px;
+    width: 150px;
     height: 30px;
     outline: none;
+    padding: 0px 10px 0px 10px;
+    font-size: 14px;
+    background-color: ${(props) => props.theme.otherPrimary};
+    font-family: ${(props) => props.theme.fontMono};
+    border-radius: 10px;
+    color: ${(props) => props.theme.otherText};
 `
 
 const ThemeSelectorWrapper = styled.div`

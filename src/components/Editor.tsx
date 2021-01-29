@@ -4,7 +4,7 @@ import { AppState } from '../redux/types'
 import { useDispatch, useSelector } from 'react-redux'
 import { setScript } from '../redux/actions'
 import './custom-quill.css'
-import { handleFormating } from '../formatting'
+import { handleBracketsDuplication, handleFormating } from '../formatting'
 import styled, { withTheme } from 'styled-components'
 
 export function ActiveEditor() {
@@ -44,8 +44,11 @@ function Editor(props: { activeFile: string; theme: any }) {
     }, [dispatch, props.activeFile])
 
     React.useEffect(() => {
-        quillRef.current?.on('text-change', (oldDelta, delta, source) => {
-            handleFormating(source, quillRef, props.theme)
+        quillRef.current?.on('text-change', (delta, oldDelta, source) => {
+            if (source === 'user') {
+                handleBracketsDuplication(delta, quillRef)
+                handleFormating(source, quillRef, props.theme)
+            }
         })
     }, [props.theme])
 

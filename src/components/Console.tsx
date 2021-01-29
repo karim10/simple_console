@@ -18,13 +18,9 @@ export function Console() {
 
     return (
         <ConsoleOutputWrapper>
-            <button
-                onClick={() => dispatch(runScriptForActiveFile())}
-                style={runButtonStyles}
-                title={'Ctrl+S'}
-            >
+            <RunButton title={'Ctlr+S'} onClick={() => dispatch(runScriptForActiveFile())}>
                 Run
-            </button>
+            </RunButton>
             <ConsoleOutput>{consoleOutput}</ConsoleOutput>
         </ConsoleOutputWrapper>
     )
@@ -40,14 +36,22 @@ const ConsoleOutputWrapper = styled.div`
     border-top: solid 2px ${(props) => props.theme.secondary};
     position: relative;
     font-size: large;
-    font-family: Comic Sans MS;
+    font-family: ${(props) => props.theme.fontMono};
 `
 
-const runButtonStyles: React.CSSProperties = {
-    position: 'absolute',
-    right: '80px',
-    top: '25px',
-}
+const RunButton = styled.button`
+    position: absolute;
+    right: 80px;
+    top: 25px;
+    width: 70px;
+    height: 30px;
+    background-color: ${(props) => props.theme.tertiary};
+    font-family: ${(props) => props.theme.fontMono};
+    color: ${(props) => props.theme.text};
+    border: none;
+    outline: none;
+    border-radius: 10px;
+`
 
 const ConsoleOutput = styled.div`
     background: ${(props) => props.theme.primary};
