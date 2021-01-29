@@ -89,13 +89,18 @@ const FilesWrapper = styled.div`
 const FileButton = styled.button<{ isActive: boolean }>`
     height: 50px;
     width: 100%;
-    border: 0;
     box-shadow: none;
-    border-bottom: solid 2px black;
     background-color: ${(props) => (props.isActive ? props.theme.tertiary : props.theme.secondary)};
     color: ${(props) => props.theme.text};
     cursor: pointer;
     fontfamily: ${(props) => props.theme.fontMono};
+    padding: 0;
+    border-bottom: solid 2px ${(props) => props.theme.secondary};
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    outline: none;
+    font-weight: 500;
 `
 
 const AddInput = styled.input`
@@ -115,4 +120,7 @@ const AddButton = styled.button`
     cursor: pointer;
     font-family: ${(props) => props.theme.fontMono};
     font-size: 16;
+    border: none;
+    outline: none;
+    font-weight: 500;
 `

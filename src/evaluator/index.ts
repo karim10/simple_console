@@ -4,7 +4,7 @@ export function evaluate(script: string): string {
     try {
         const console = {
             log: function (m: any) {
-                consoleOutput = consoleOutput + '\n' + m
+                consoleOutput = consoleOutput + m + '\n'
                 return consoleOutput
             },
         }

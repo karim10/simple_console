@@ -1,12 +1,12 @@
 export interface File {
-    filename: string;
-    editorContent: string;
+    filename: string
+    editorContent: string
 }
 
 export interface AppState {
-    readonly files: ReadonlyArray<File>;
-    readonly activeFile: string;
-    readonly consoleOutput: string;
+    readonly files: ReadonlyArray<File>
+    readonly activeFile: string
+    readonly consoleOutput: string
 }
 
 export const initialState: AppState = {
@@ -18,4 +18,4 @@ export const initialState: AppState = {
     ],
     activeFile: 'index.js',
     consoleOutput: '',
-};
+}

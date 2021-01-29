@@ -6,27 +6,48 @@ import { store } from './redux/store'
 import { Console } from './components/Console'
 import { ActiveEditor } from './components/Editor'
 import { Sidebar } from './components/Sidebar'
-import { theme } from './theme'
+import { darkTheme, lightTheme } from './theme'
 import styled, { ThemeProvider } from 'styled-components'
+import { AppContext, AppState, Theme } from './context'
+import { ThemeSelector } from './components/ThemeSelector'
 
 function App() {
+    const [appState, setAppState] = React.useState<AppState>({ theme: Theme.dark })
+
     return (
-        <Provider store={store}>
-            <ThemeProvider theme={theme}>
-                <AppWrapper>
-                    <IDEContainer>
-                        <SidebarWrapper>
-                            <Sidebar />
-                        </SidebarWrapper>
-                        <ContentWrapper>
-                            <ActiveEditor />
-                            <Console />
-                        </ContentWrapper>
-                    </IDEContainer>
-                </AppWrapper>
-            </ThemeProvider>
-        </Provider>
+        <AppContext.Provider
+            value={{
+                theme: appState.theme,
+                setAppState,
+            }}
+        >
+            <Provider store={store}>
+                <ThemeProvider theme={getTheme(appState.theme)}>
+                    <AppWrapper>
+                        <ThemeSelector />
+                        <IDEContainer>
+                            <SidebarWrapper>
+                                <Sidebar />
+                            </SidebarWrapper>
+                            <ContentWrapper>
+                                <ActiveEditor />
+                                <Console />
+                            </ContentWrapper>
+                        </IDEContainer>
+                    </AppWrapper>
+                </ThemeProvider>
+            </Provider>
+        </AppContext.Provider>
     )
+}
+
+function getTheme(theme: Theme) {
+    switch (theme) {
+        case Theme.light:
+            return lightTheme
+        case Theme.dark:
+            return darkTheme
+    }
 }
 
 const AppWrapper = styled.div`

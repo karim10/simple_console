@@ -78,7 +78,7 @@ const EditorContainer = styled.div`
     height: 90%;
     width: 90%;
     background: ${(props) => props.theme.primary};
-    border: solid 2px ${(props) => props.theme.secondary};
+    border: solid 2px ${(props) => props.theme.secondary} !important;
     border-radius: 10px;
     caret-color: ${(props) => props.theme.text};
     color: ${(props) => props.theme.text};

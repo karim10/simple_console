@@ -1,4 +1,3 @@
-import { Button } from '@material-ui/core'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -19,14 +18,13 @@ export function Console() {
 
     return (
         <ConsoleOutputWrapper>
-            <Button
-                variant="contained"
+            <button
                 onClick={() => dispatch(runScriptForActiveFile())}
                 style={runButtonStyles}
                 title={'Ctrl+S'}
             >
                 Run
-            </Button>
+            </button>
             <ConsoleOutput>{consoleOutput}</ConsoleOutput>
         </ConsoleOutputWrapper>
     )
@@ -39,7 +37,7 @@ const ConsoleOutputWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-top: solid 2px ${(props) => props.theme.seconday};
+    border-top: solid 2px ${(props) => props.theme.secondary};
     position: relative;
     font-size: large;
     font-family: Comic Sans MS;
