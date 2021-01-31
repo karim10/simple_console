@@ -40,6 +40,7 @@ const ThemeSelect = styled.select`
     font-family: ${(props) => props.theme.fontMono};
     border-radius: 10px;
     color: ${(props) => props.theme.otherText};
+    cursor: pointer;
 `
 
 const ThemeSelectorWrapper = styled.div`

@@ -9,13 +9,19 @@ export interface AppState {
     readonly consoleOutput: string
 }
 
+const INITIAL_EDITOR_CONTEXT = `function helloWorld() {
+	console.log('Hello World!');
+}
+
+helloWorld();`
+
 export const initialState: AppState = {
     files: [
         {
             filename: 'index.js',
-            editorContent: '',
+            editorContent: INITIAL_EDITOR_CONTEXT,
         },
     ],
     activeFile: 'index.js',
-    consoleOutput: '',
+    consoleOutput: 'Hello World!',
 }

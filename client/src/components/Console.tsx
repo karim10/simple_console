@@ -51,6 +51,7 @@ const RunButton = styled.button`
     border: none;
     outline: none;
     border-radius: 10px;
+    cursor: pointer;
 `
 
 const ConsoleOutput = styled.div`

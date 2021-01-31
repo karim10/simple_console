@@ -31,7 +31,7 @@ function Editor(props: { activeFile: string; theme: any }) {
         })
         quillRef.current.root.setAttribute('spellcheck', 'false')
         quillRef.current.focus()
-    }, [])
+    }, [props.activeFile])
 
     React.useEffect(() => {
         const textChangeHandler = () =>
@@ -50,7 +50,7 @@ function Editor(props: { activeFile: string; theme: any }) {
                 handleFormating(source, quillRef, props.theme)
             }
         })
-    }, [props.theme])
+    }, [props.theme, props.activeFile])
 
     React.useEffect(() => {
         if (quillRef.current && fileContent !== undefined) {
