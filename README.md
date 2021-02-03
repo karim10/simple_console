@@ -1,6 +1,6 @@
 Simple Console
 
-Web based javascript IDE
+Web based javascript editor
 
 Visit the app here: http://simple-console.karimby-portfolio.com
 
