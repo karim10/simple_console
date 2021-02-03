@@ -1,5 +1,4 @@
-import { createStore, applyMiddleware } from 'redux'
-import logger from 'redux-logger'
+import { createStore } from 'redux'
 
 import { AppState, initialState } from './types'
 import { ADD_FILE, RUN_SCRIPT_FOR_ACTIVE_FILE, SET_ACTIVE_FILE, SET_SCRIPT } from './actions'
