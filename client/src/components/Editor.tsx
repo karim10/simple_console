@@ -37,7 +37,6 @@ function Editor(props: { activeFile: string; theme: any }) {
         const textChangeHandler = () =>
             dispatch(setScript(props.activeFile, quillRef.current?.getText() ?? ''))
         quillRef.current?.on('text-change', textChangeHandler)
-        // quillRef.current?.on('selection-change', selectionChangeHandler)
         return () => {
             quillRef.current?.off('text-change', textChangeHandler)
         }
@@ -50,7 +49,7 @@ function Editor(props: { activeFile: string; theme: any }) {
                 handleFormating(source, quillRef, props.theme)
             }
         })
-    }, [props.theme, props.activeFile])
+    }, [props.activeFile])
 
     React.useEffect(() => {
         if (quillRef.current && fileContent !== undefined) {
