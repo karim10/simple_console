@@ -9,7 +9,7 @@
     },
     "devDependencies": {},
     "scripts": {
-        "prestart": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+        "build": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
         "start": "npm install && node index.js",
         "startDev": "node index.js",
         "client": "cd client && npm start",
